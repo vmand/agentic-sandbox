@@ -1,10 +1,10 @@
 # Agentic Sandbox
 
-A Docker-based sandbox environment for running AI coding assistants in isolation. Supports Claude Code, OpenAI Codex, and Google Gemini CLI.
+A Docker-based sandbox environment for running AI coding assistants in isolation. Supports Claude Code, OpenAI Codex, Google Gemini CLI, and OpenCode.
 
 ## Features
 
-- **Multi-agent support** - Run Claude, Codex, or Gemini in the same environment
+- **Multi-agent support** - Run Claude, Codex, Gemini, or OpenCode in the same environment
 - **Isolated execution** - Each agent runs in a Docker container
 - **Persistent state** - Configurations and credentials persist between sessions
 - **Unified interface** - Single command to launch any agent
@@ -38,6 +38,11 @@ AGENT_TYPE=gemini make compose
 For OpenAI Codex:
 ```bash
 AGENT_TYPE=codex make compose
+```
+
+For OpenCode:
+```bash
+AGENT_TYPE=opencode make compose
 ```
 
 then

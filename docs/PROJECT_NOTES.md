@@ -2,11 +2,12 @@
 
 ## Project Overview
 
-**Agentic Sandbox** is a Docker-based development environment that provides a unified sandbox for running multiple AI coding assistants. It supports three major AI CLI tools:
+**Agentic Sandbox** is a Docker-based development environment that provides a unified sandbox for running multiple AI coding assistants. It supports four major AI CLI tools:
 
 - **Claude Code** (Anthropic) - `@anthropic-ai/claude-code`
 - **Codex** (OpenAI) - `@openai/codex`
 - **Gemini CLI** (Google) - `@google/gemini-cli`
+- **OpenCode** (Anomalyco) - `opencode`
 
 The project enables developers to experiment with and compare different AI coding assistants in an isolated, reproducible environment.
 
@@ -27,6 +28,7 @@ agentic-sandbox/
 ├── AGENTS.md              # Codex agent instructions (redirects to CLAUDE.md)
 ├── CLAUDE.md              # Claude Code instructions
 ├── GEMINI.md              # Gemini CLI instructions (redirects to CLAUDE.md)
+├── OPENCODE.md            # OpenCode instructions (redirects to CLAUDE.md)
 ├── LICENSE                # BSD 3-Clause License
 ├── Makefile               # Build and run commands
 └── README.md              # Basic project description
@@ -36,11 +38,12 @@ agentic-sandbox/
 
 ### Docker Container
 
-The sandbox runs on `node:25` base image with all three AI CLI tools pre-installed globally via npm:
+The sandbox runs on `node:25` base image with all AI CLI tools pre-installed:
 
-- `@anthropic-ai/claude-code@latest`
-- `@openai/codex@latest`
-- `@google/gemini-cli@latest`
+- `@anthropic-ai/claude-code@latest` (npm)
+- `@openai/codex@latest` (npm)
+- `@google/gemini-cli@latest` (npm)
+- `opencode` (GitHub releases)
 
 ### Volume Mounts
 
@@ -73,12 +76,15 @@ make codex
 
 # Run Google Gemini CLI
 make gemini
+
+# Run OpenCode
+make opencode
 ```
 
 ### Manual Execution
 
 ```bash
-./bin/agent <claude|codex|gemini> <home_dir> <project_dir>
+./bin/agent <claude|codex|gemini|opencode> <home_dir> <project_dir>
 ```
 
 Default directories:
@@ -96,6 +102,7 @@ cd deployments && docker compose up -d
 # Or with specific agent type
 AGENT_TYPE=codex docker compose up -d
 AGENT_TYPE=gemini docker compose up -d
+AGENT_TYPE=opencode docker compose up -d
 
 # Attach to the agent container
 cd .. && bin/agent-docker
@@ -105,7 +112,7 @@ cd deployments && docker compose down
 ```
 
 Environment variables:
-- `AGENT_TYPE`: Select agent (`claude`, `codex`, or `gemini`). Default: `claude`
+- `AGENT_TYPE`: Select agent (`claude`, `codex`, `gemini`, or `opencode`). Default: `claude`
 - `HOME_DIR`: Path to home directory. Default: `./home`
 - `PROJECT_DIR`: Path to project directory. Default: `./home/project`
 
@@ -122,15 +129,17 @@ MCP configuration locations by agent:
 - **Claude**: `/home/node/project/.mcp.json`
 - **Codex**: `/home/node/project/mcp.json`
 - **Gemini**: `/home/node/.gemini/settings.json`
+- **OpenCode**: `/home/node/project/opencode.json`
 
 ## Configuration Files
 
 ### AI Agent Instructions
 
-All three AI tools are configured to read `CLAUDE.md` for project instructions:
+All AI tools are configured to read `CLAUDE.md` for project instructions:
 - `CLAUDE.md` - Primary instruction file
 - `AGENTS.md` - Redirects to CLAUDE.md (for Codex compatibility)
 - `GEMINI.md` - Redirects to CLAUDE.md (for Gemini compatibility)
+- `OPENCODE.md` - Redirects to CLAUDE.md (for OpenCode compatibility)
 
 This unified approach ensures consistent behavior across all AI assistants.
 

@@ -2,6 +2,8 @@
 
 set -e
 
+export PATH="$HOME/.rd/bin:$PATH"
+
 PROVISIONED_MARKER="/home/node/.mcp_provisioned"
 
 # Get the agent container ID from docker compose
@@ -32,8 +34,11 @@ case "$AGENT_TYPE" in
     gemini)
         cmd="gemini"
         ;;
+    opencode)
+        cmd="opencode"
+        ;;
     *)
-        echo "Error: Invalid AGENT_TYPE '$AGENT_TYPE'. Use: claude, codex, or gemini"
+        echo "Error: Invalid AGENT_TYPE '$AGENT_TYPE'. Use: claude, codex, gemini, or opencode"
         exit 1
         ;;
 esac
@@ -87,6 +92,23 @@ EOF'
         gemini)
             # Gemini CLI uses settings.json with mcpServers
             docker exec "$CONTAINER_ID" bash -c 'cat > /home/node/.gemini/settings.json << EOF
+{
+  "mcpServers": {
+    "remote-debugger": {
+      "type": "http",
+      "url": "http://remote-debugger-mcp:8899/mcp"
+    },
+    "wass": {
+      "type": "http",
+      "url": "http://wass-mcp:8989/mcp"
+    }
+  }
+}
+EOF'
+            ;;
+        opencode)
+            # OpenCode uses opencode.json in project directory
+            docker exec "$CONTAINER_ID" bash -c 'cat > /home/node/project/opencode.json << EOF
 {
   "mcpServers": {
     "remote-debugger": {

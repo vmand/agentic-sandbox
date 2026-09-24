@@ -17,6 +17,9 @@ make codex
 
 # Run Google Gemini CLI
 make gemini
+
+# Run OpenCode
+make opencode
 ```
 
 On first run, each agent will prompt you to authenticate with your API key.
@@ -33,6 +36,7 @@ The Makefile provides convenient targets:
 | `make claude` | Launch Claude Code |
 | `make codex` | Launch OpenAI Codex |
 | `make gemini` | Launch Google Gemini CLI |
+| `make opencode` | Launch OpenCode |
 
 ### Using the Agent Script Directly
 
@@ -43,7 +47,7 @@ For custom directories:
 ```
 
 **Parameters:**
-- `<agent>` - One of: `claude`, `codex`, or `gemini`
+- `<agent>` - One of: `claude`, `codex`, `gemini`, or `opencode`
 - `<home_dir>` - Directory for agent configs and credentials (mounted as `/home/node`)
 - `<project_dir>` - Your project directory (mounted as `/home/node/<dirname>`)
 
@@ -80,8 +84,9 @@ To provide instructions to AI agents, create or edit these files in your project
 | `CLAUDE.md` | Claude Code (primary) |
 | `AGENTS.md` | Codex |
 | `GEMINI.md` | Gemini CLI |
+| `OPENCODE.md` | OpenCode |
 
-For consistent behavior, `AGENTS.md` and `GEMINI.md` redirect to `CLAUDE.md` by default.
+For consistent behavior, `AGENTS.md`, `GEMINI.md`, and `OPENCODE.md` redirect to `CLAUDE.md` by default.
 
 ## Architecture
 
@@ -93,6 +98,7 @@ For consistent behavior, `AGENTS.md` and `GEMINI.md` redirect to `CLAUDE.md` by 
 │  │  - @anthropic-ai/claude-code            │    │
 │  │  - @openai/codex                        │    │
 │  │  - @google/gemini-cli                   │    │
+│  │  - opencode                             │    │
 │  └─────────────────────────────────────────┘    │
 │                     │                           │
 │     ┌───────────────┴───────────────┐           │
@@ -146,4 +152,7 @@ rm -rf build/home/.codex
 
 # For Gemini
 rm -rf build/home/.gemini
+
+# For OpenCode
+rm -rf build/home/.config/opencode
 ```

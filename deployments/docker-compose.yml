@@ -10,14 +10,14 @@ services:
   wass-mcp:
     image: tb0hdan/wass-mcp:latest
     restart: unless-stopped
-    command: ["--db", "/data/wass.db", "--bind", "0.0.0.0:8989"]
+    command: ["/app/wass-mcp", "--db", "/data/wass.db", "--bind", "0.0.0.0:8989"]
     volumes:
       - wass-data:/data
     networks:
       - agent-network
 
   # Coding Agent - selected via AGENT_TYPE environment variable
-  # Valid values: claude, codex, gemini
+  # Valid values: claude, codex, gemini, opencode
   # Container runs with noop entrypoint; use bin/agent-docker to attach
   agent:
     image: tb0hdan/agentic-sandbox:latest

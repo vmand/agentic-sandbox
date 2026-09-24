@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH="$HOME/.rd/bin:$PATH"
+
 PROJECT="/home/node/$(basename $3)"
 
 case $1 in
@@ -12,8 +14,11 @@ case $1 in
     gemini)
         cmd="gemini"
         ;;
+    opencode)
+        cmd="opencode"
+        ;;
     *)
-        echo "Usage $0 {claude|codex|gemini} {project_dir}"
+        echo "Usage $0 {claude|codex|gemini|opencode} {project_dir}"
         exit 127
         ;;
 esac
